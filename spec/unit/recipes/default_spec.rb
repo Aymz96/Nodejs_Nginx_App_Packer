@@ -12,18 +12,32 @@ describe 'nodejs_nginx::default' do
     # https://github.com/chefspec/fauxhai/blob/master/PLATFORMS.md
     platform 'ubuntu', '18.04'
 
-    it 'converges successfully' do
-      expect { chef_run }.to_not raise_error
-    end
-  end
-
-  context 'When all attributes are default, on CentOS 7' do
-    # for a complete list of available platforms and versions see:
-    # https://github.com/chefspec/fauxhai/blob/master/PLATFORMS.md
-    platform 'centos', '7'
+    #let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '16.04').converge(described_recipe) }
 
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
     end
+
+    #Installing nginx
+    it 'should install nginx' do
+      expect(chef_run).to install_package 'nginx'
+    end
+
+    # install nodejs
+    # get this to be installed from a dependency
+    it 'should install nodejs' do
+      expect(chef_run).to install_package 'nodejs'
+    end
+
+    #Services
+    #nginx
+    it 'should enables nginx' do
+      expect(chef_run).to enable_service 'nginx'
+    end
+
+    it 'should start nginx' do
+      expect(chef_run).to start_service 'nginx'
+    end
+
   end
 end
