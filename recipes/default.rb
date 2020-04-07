@@ -1,4 +1,4 @@
-#
+
 # Cookbook:: nodejs_nginx
 # Recipe:: default
 #
@@ -9,8 +9,6 @@ apt_update 'update_sources' do
 end
 
 package 'nginx'
-
-package 'nodejs'
 
 
 service 'nginx' do
@@ -34,3 +32,13 @@ link '/etc/nginx/sites-enabled/default' do
   action :delete
   notifies :restart, 'service[nginx]'
 end
+
+
+include_recipe 'nodejs'
+# Does not install npm by default. Sad :(
+# include_recipe "nodejs::npm"
+# try installing npm using package
+package 'npm'
+
+npm_package 'pm2'
+npm_package 'react'

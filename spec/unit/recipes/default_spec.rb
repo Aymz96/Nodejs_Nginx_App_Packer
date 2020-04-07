@@ -12,7 +12,7 @@ describe 'nodejs_nginx::default' do
     # https://github.com/chefspec/fauxhai/blob/master/PLATFORMS.md
     platform 'ubuntu', '18.04'
 
-    #let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '16.04').converge(described_recipe) }
+    #let(:chef_run) { ChefSpec::SoloRunner.new(platform: 'ubuntu', version: '18.04').converge(described_recipe) }
 
     it 'converges successfully' do
       expect { chef_run }.to_not raise_error
@@ -25,12 +25,6 @@ describe 'nodejs_nginx::default' do
     #Installing nginx
     it 'should install nginx' do
       expect(chef_run).to install_package 'nginx'
-    end
-
-    # install nodejs
-    # get this to be installed from a dependency
-    it 'should install nodejs' do
-      expect(chef_run).to install_package 'nodejs'
     end
 
     #Services
@@ -54,6 +48,20 @@ describe 'nodejs_nginx::default' do
 
     it 'should delete the symlink from the default config in site-enabled' do
       expect(chef_run).to delete_link "/etc/nginx/sites-enabled/default"
+    end
+
+    # install nodejs
+    # get this to be installed from a dependency
+    it 'should install nodejs from recipe' do
+      expect(chef_run).to include_recipe 'nodejs'
+    end
+
+    it 'should install pm2 via npm' do
+      expect(chef_run).to install_nodejs_npm('pm2')
+    end
+
+    it 'should install react via npm' do
+      expect(chef_run).to install_nodejs_npm('react')
     end
 
   end
