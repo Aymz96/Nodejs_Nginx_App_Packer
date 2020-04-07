@@ -38,7 +38,7 @@ include_recipe 'nodejs'
 # Does not install npm by default. Sad :(
 # include_recipe "nodejs::npm"
 # try installing npm using package
-package 'npm'
+# package 'npm'
 
 npm_package 'pm2'
 npm_package 'react'
