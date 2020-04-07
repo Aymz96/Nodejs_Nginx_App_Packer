@@ -38,8 +38,8 @@ describe 'nodejs_nginx::default' do
     end
 
     # if we created a new proxy.config file for nginx
-    it 'should crea a proxy.conf template in /etc/nginx/sites-available' do
-      expect(chef_run).to create_template "/etc/nginx/sites-available/proxy.conf"
+    it 'should create a proxy.conf template in /etc/nginx/sites-available' do
+      expect(chef_run).to create_template("/etc/nginx/sites-available/proxy.conf").with_variables(proxy_port: 3000)
     end
 
     it 'it should create a symlink of proxy.conf from site-available to site-enabled' do
